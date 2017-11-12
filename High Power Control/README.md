@@ -1,16 +1,28 @@
-# Lab 6: "High Power" Control
-For starters, you will not be dealing with anything that is truly "high power". Instead, what I am considering "high power" is anything with the potential to damage or fry your microcontrollers if you were to drive them directly. The idea behind this part of the lab is to learn how not only to drive things that may require a high voltage or high current, but how to then protect your microcontroller from them.
+# High Power Control
 
-## Switching
-Most of you have used one of the types of switching circuits to control the RGB LEDs. For this part of the lab, you need to focus on the different types of switching circuits along with the differences in inductive and resistive loads.
+## Relay Switching
+For applications where high power needs to be controlled, the implementation of relays is important. Relays are basically big transistors. They have the ability to open or close a circuit based on an applied voltage to a pin. The biggest difference is the relay's ability to handle much larger loads than a transistor. 
 
-### Relays
-A relay is a electro-mechanical system which can open and close a switch based on an input. 
-![Relay](https://www.phidgets.com/docs/images/1/1d/3051_1_Relay_Diagram.jpg)
-These are extremely useful in situations where large amounts of current need to flow, such as in automotive applications, but they do have their limits. For starters, since the actuation process requires a constant current, sometimes this can be too much for your processor to handle. Second, a lot of these relays require higher than 3.3V, which limits how you can actually turn these things on and off. Using the MSP430G2553, control the state of a relay to drive a power resistor with +12V. Your README for this part should include a screenshot of the output of your MSP and the voltage across the resistor. Try to figure out the switching speed limitations of the relay experimentally.
+For this lab example, a relay was used to drive 12V through a power resistor. In order to determine the switching limitations of the relay, a square wave was applied and swept through a range of frequencies. An oscilloscope was used to analyze the output and determine the point where the signal breaks down and can no longer function well as a square wave. 
 
-### MOSFET Switching
-The MOSFET switch is a very simple circuit which can be used in a multitude of applications. One of the most important features of the MOSFET Switch is the near zero current it takes to switch the MOSFET from an on to an off state. There are two main architectures, low-side and high-side switch, each requiring a different type of MOSFET. Using the MSP430G2553, drive a power resistor with +12V in the same fashion as the relay. Obtain an MSP430G2553 voltage output along with the voltage through the power resistor. Try to figure out the switching speed limitations of the MOSFET experimentally.
+The image below shows the waveform output of the relay, ranging from 1Hz to 100Hz. 
 
-## Deliverables
-Along with what was asked in each part, you will need to utilize the DMM to determine what the current draw from each switch is and if that falls into spec with the Microcontroller. You need to then come up with the best configuration you can think of using to control something that requires large current, but also protects your processor from damage. The reason I am asking you to do this with just the G2553 is: A) The code is just generating a square wave, and B) this part of the lab runs the highest chance of damaging your parts and we have spare G2553's just in case.
+!(https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-nick-and-joe/blob/master/High%20Power%20Control/Pictures/relaysweep1.png)
+
+While the relay was in the lower section of this sweep it performed well, producing an output which resembeled a square wave. This is seen in the figure below. 
+
+!(https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-nick-and-joe/blob/master/High%20Power%20Control/Pictures/relaysweep2.png)
+However, as the frequency increased, the integrity of the square wave which was outputted from the relay diminished, resulting in a signal which is not very useful. This can be seen in the below figure. 
+
+!(https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-nick-and-joe/blob/master/High%20Power%20Control/Pictures/relaysweep4.png)
+
+With a MOSFET being used as an intermediate stage to power the relay, the voltage output of the MSP430 board was relatively zero. A MOSFET needed to be used in order to provide a large enough voltage to the relay pin. The inclusion of a MOSFET shouldn't have a negative impact on this test, because the switching speed of a MOSFET is much greater than that of a relay. 
+## MOSFET Switching
+In a similar fashion to the relay switching, the same process was copmleted for a MOSFET. It is expected for a MOSFET to be able to switch at a much higher rate than the relay, so the frequencies which were applied to the component were drastically increased. 
+
+For the MOSFET switching, the frequency tested went from 300Hz to 100kHz. The MOSFET performed exceptionally well, even in to the higher frequencies. In the image below the output still resembles a square wave, even though it is beginning to diminish. 
+
+!(https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-nick-and-joe/blob/master/High%20Power%20Control/Pictures/mosfetsweep100khz1.png)
+
+Due to the use of a MOSFET for this circuit, the current draw from the MSP430 GPIO pin was near zero. With the MOSFET being connected to 12V rails and powering a 1k Ohm power resistor, the current was found to be 12mA. 
+
