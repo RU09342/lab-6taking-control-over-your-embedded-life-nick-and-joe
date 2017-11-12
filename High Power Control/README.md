@@ -7,7 +7,7 @@ For this lab example, a relay was used to drive 12V through a power resistor. In
 
 The schematic for the hardware can be found below, and shows how the MOSFET is responsible for driving the relay. +12 Volts was used for each source to reduce the amount of wires run, but the relay switches at a minimum voltage of 7V. 
 
-![Hardware](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-nick-and-joe/blob/master/High%20Power%20Control/Schematics/RelayMosfetControl.PNG)
+![Hardware](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-nick-and-joe/blob/master/High%20Power%20Control/Schematics/RelayMosfetControl1.PNG)
 
 The image below shows the waveform output of the relay, ranging from 1Hz to 100Hz. 
 
