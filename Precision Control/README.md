@@ -5,7 +5,11 @@ Some applications require large amounts of voltage or current, so switching tech
 Since you already have the code to perform PWM, then really, the software side of this part of the lab is fairly easy. You need to design a system which can take in a PWM duty cycle over something like UART (or you could have your system read in the position of a potentiometer), and produce that signal on a GPIO. The interesting part comes in when I want the output of your system to be an Analog voltage. In this case, a PWM with a 50% duty cycle should produce roughly Vcc/2 volts. This part of the lab should be done with the MSP430F5529 and the physical circuit should be constructed of an active Low-Pass Filter.
 
 ## R2R DAC
-Another method of creating an analog output is using an R2R ladder.For this exercise, 8 pins were used to the output voltage has 2^8, or 255, steps. Each pin of the microcontroller will contribute a small amount of voltage to the overall output which can be controlled through the code. In order to implement this design, a simple code was written which controlled the output level of the 8 GPIO pins used. The main part of the code can be found below.
+Another method of creating an analog output is using an R2R ladder.For this exercise, 8 pins were used to the output voltage has 2^8, or 255, steps. The R2R ladder is shown below.
+
+![R2RwoLoad](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-nick-and-joe/blob/master/Precision%20Control/Schematics/R2RnoLoad.png)
+
+Each pin of the microcontroller will contribute a small amount of voltage to the overall output which can be controlled through the code. In order to implement this design, a simple code was written which controlled the output level of the 8 GPIO pins used. The main part of the code can be found below.
 ```c
 while(1){
     while(i<255){
@@ -27,7 +31,9 @@ Besides setting the directions of the pins, this was pretty much the entire code
 The bottom wave in this image is a triangle wave produced form a function generator. Additionally, the FFT of each signal is found next to their respective waves. Note that the harmonics of the triangle wave produced from the signal generateor are more pronouncned than the ones produced form the MSP430. This means that the triangle wave is less 'perfect' than that of the singal generator, an effect of the 255 steps. 
 
 ## Loading Effects
-With the lack of a buffer at the end of this circuit, the load which is applied can have a large effect on the output voltage. In order to observe this, resistors ranging from 100 to 100k were attached to the output and analyzed via an oscilloscope. 
+With the lack of a buffer at the end of this circuit, the load which is applied can have a large effect on the output voltage. In order to observe this, resistors ranging from 100 to 100k were attached to the output as seen in the circuit below and analyzed via an oscilloscope. 
+
+![R2RwLoad](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-nick-and-joe/blob/master/Precision%20Control/Schematics/R2RwLoad.png)
 
 ### R2R
 The first test was with a 100 Ohm resisor, and it can be found below.
