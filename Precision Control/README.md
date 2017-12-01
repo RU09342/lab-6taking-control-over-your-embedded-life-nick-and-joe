@@ -2,7 +2,11 @@
 Some applications require large amounts of voltage or current, so switching techniques must be used in order to provide the desired output. Other cases however require a finer control over the voltage or current going into them (some even require a control over resistance). So far you have looked at PWM to control the brightness of an LED, is there a way to use this to output a specified voltage or current, or even a specific waveform?
 
 ## PWM Part 2
-Since you already have the code to perform PWM, then really, the software side of this part of the lab is fairly easy. You need to design a system which can take in a PWM duty cycle over something like UART (or you could have your system read in the position of a potentiometer), and produce that signal on a GPIO. The interesting part comes in when I want the output of your system to be an Analog voltage. In this case, a PWM with a 50% duty cycle should produce roughly Vcc/2 volts. This part of the lab should be done with the MSP430F5529 and the physical circuit should be constructed of an active Low-Pass Filter.
+The return of PWM in this lab is found in the creation of an analog output voltage. In order to do this, a simple code was written which is able to take in a UART value and convert it to a PWM signal. This is done using a timer module and changing the CCR value, much like in Milestone 1. In order to transform the output signal into an analog voltage, it had to go through a low-pass filter. This takes the square wave and transforms it into a steady analog voltage. The figure below shows the output of the low-pass filter on an oscilloscope. 
+
+![PWMSignal](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-nick-and-joe/blob/master/Precision%20Control/Pictures/pwmfft.png)
+
+The voltage is changed from a square wave into a relatively DC signal with a little bit of oscillation. This is expected, though, as it passes through the low-pass filter. The FFT on this signal shows that there is a harmonic at the frequency of the sine output, which shows just how the low-pass filter is working. 
 
 ## R2R DAC
 Another method of creating an analog output is using an R2R ladder.For this exercise, 8 pins were used to the output voltage has 2^8, or 255, steps. The R2R ladder is shown below.
